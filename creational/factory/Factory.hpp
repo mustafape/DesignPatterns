@@ -1,4 +1,3 @@
-
 #ifndef FACTORY_HPP
 #define FACTORY_HPP
 
@@ -17,19 +16,19 @@ enum class WindowObjectType { wot_BUTTON, wot_TEXTBOX, wot_LISTBOX, wot_UNDEFINE
 class Factory {
 private:
     // Map to associate WindowObjectType with corresponding create methods
-    map<WindowObjectType, function<unique_ptr<IWindowObject>()>> windowObjectCreators = {
+    map<WindowObjectType, function<unique_ptr<IWindowObject>()>> m_windowObjectCreators = {
     {WindowObjectType::wot_BUTTON,  []() { return make_unique<Button>(); }},
     {WindowObjectType::wot_TEXTBOX, []() { return make_unique<TextBox>(); }},
     {WindowObjectType::wot_LISTBOX, []() { return make_unique<ListBox>(); }}
     };
 
     bool isValidType(const WindowObjectType& o) {
-        return windowObjectCreators.find(o) != windowObjectCreators.end();
+        return m_windowObjectCreators.find(o) != m_windowObjectCreators.end();
     }
 public:
     unique_ptr<IWindowObject> createProduct(const WindowObjectType& o) {
         if(isValidType(o)) {
-            return  windowObjectCreators[o]();
+            return  m_windowObjectCreators[o]();
         }
         else {
             throw invalid_argument("Unknown product type");
