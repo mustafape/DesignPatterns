@@ -4,6 +4,20 @@
 #include <stdexcept>
 #include "Factory.hpp" // Include the factory header file
 
+using namespace std;
+
+string getWindowObjectTypeName(IWindowObject* obj) {
+    if (dynamic_cast<Button*>(obj)) {
+        return "Button";
+    } else if (dynamic_cast<TextBox*>(obj)) {
+        return "TextBox";
+    } else if (dynamic_cast<ListBox*>(obj)) {
+        return "ListBox";
+    } else {
+        return "Unknown";
+    }
+}
+
 int main() {
     vector<unique_ptr<IWindowObject>> windowObjectCollection; 
 
@@ -21,6 +35,7 @@ int main() {
         woc->resize(30, 10);
         woc->render();
         woc->onClick();
+        cout << "Object type: " << getWindowObjectTypeName(woc.get()) << endl;
     }
 
     return 0;
